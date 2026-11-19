@@ -108,13 +108,14 @@ preço `.price` e botão "+" redondo, com filete separando o rodapé do card.
 - Curva padrão: `--ease-out-soft` (`cubic-bezier(0.22, 1, 0.36, 1)`), com durações de 0,5–0,8 s.
 - Elementos entram com opacidade e um deslocamento de 24–40px, uma vez, quando aparecem na tela.
 - **Abertura da página inicial (`HeroStory`):** o vídeo fica fixo enquanto 4 "camadas" de informação aparecem uma por vez com o scroll (feito à mão, personalização, como pedir, pagamento e entrega).
-- **Respeite "reduzir movimento":** o app inteiro usa `MotionConfig reducedMotion="user"`. A abertura vira uma sequência estática com a imagem do pôster, sem vídeo.
+- **Respeite "reduzir movimento":** o app inteiro usa `MotionConfig reducedMotion="user"`. Na abertura, as camadas deixam de depender da rolagem e aparecem em sequência; o vídeo continua (é lento e suave), com o botão de pausar.
 
 ## 6. Vídeo de fundo
 
 - Arquivos: `frontend/public/media/hero.mp4` (1920×1080, 16 s em loop, cerca de 1 MB) e `hero-poster.jpg`.
 - Gerado por código: [`docs/video/render.py`](../video/render.py). As camadas de creme, ganache e biscoito ondulam devagar, uma luz quente passeia e partículas de cacau sobem. Para mudar cores ou ritmo, edite as constantes do script e rode `python3 render.py video hero.mp4` (precisa de numpy, Pillow e ffmpeg).
 - O vídeo é decorativo (`aria-hidden`), não tem som e pausa quando sai da tela.
+- Sempre há um botão de pausar/reproduzir no canto inferior direito (WCAG 2.2.2). A escolha fica salva no navegador da pessoa.
 
 ## 7. Acessibilidade (obrigatório)
 

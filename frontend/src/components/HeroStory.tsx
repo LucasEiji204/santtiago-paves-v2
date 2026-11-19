@@ -100,14 +100,30 @@ const STEPS: Step[] = [
 
 const N = STEPS.length
 
-/** Vídeo de fundo: sem som, em loop, pausa quando sai da tela. */
-function BackgroundVideo({ play }: { play: boolean }) {
+const PAUSE_KEY = 'atelier-du-pave:video-pausado'
+
+function readPaused(): boolean {
+  try {
+    return window.localStorage.getItem(PAUSE_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Vídeo de fundo: sem som, em loop, pausa sozinho quando sai da tela.
+ * Toca para todos (é lento e suave), mas tem botão de pausar — exigência
+ * de acessibilidade para vídeos que tocam sozinhos (WCAG 2.2.2). A escolha
+ * de pausar fica guardada no navegador da pessoa.
+ */
+function useBackgroundVideo() {
   const ref = useRef<HTMLVideoElement>(null)
+  const [paused, setPaused] = useState(readPaused)
 
   useEffect(() => {
     const video = ref.current
     if (!video) return
-    if (!play) {
+    if (paused) {
       video.pause()
       return
     }
@@ -117,22 +133,51 @@ function BackgroundVideo({ play }: { play: boolean }) {
     })
     observer.observe(video)
     return () => observer.disconnect()
-  }, [play])
+  }, [paused])
 
+  const toggle = () => {
+    setPaused((p) => {
+      try {
+        window.localStorage.setItem(PAUSE_KEY, p ? '0' : '1')
+      } catch {
+        // sem armazenamento: a escolha vale só para esta visita
+      }
+      return !p
+    })
+  }
+
+  return { ref, paused, toggle }
+}
+
+function BackgroundVideo({ video, className = '' }: { video: ReturnType<typeof useBackgroundVideo>; className?: string }) {
   return (
     <video
-      ref={ref}
-      className="absolute inset-0 w-full h-full object-cover"
+      ref={video.ref}
+      className={`absolute inset-0 w-full h-full object-cover ${className}`}
       src={VIDEO_SRC}
       poster={POSTER_SRC}
       muted
       loop
       playsInline
-      autoPlay={play}
-      preload={play ? 'auto' : 'none'}
+      autoPlay={!video.paused}
+      preload="auto"
       aria-hidden="true"
       tabIndex={-1}
     />
+  )
+}
+
+function VideoToggle({ video, className = '' }: { video: ReturnType<typeof useBackgroundVideo>; className?: string }) {
+  return (
+    <button
+      type="button"
+      onClick={video.toggle}
+      aria-label={video.paused ? 'Reproduzir vídeo de fundo' : 'Pausar vídeo de fundo'}
+      aria-pressed={video.paused}
+      className={`z-10 w-11 h-11 rounded-full flex items-center justify-center bg-cocoa-950/50 backdrop-blur-md border border-cream-50/20 text-cream-50 hover:bg-cocoa-950/80 transition-colors ${className}`}
+    >
+      <Icon name={video.paused ? 'play_arrow' : 'pause'} className="text-[22px]" />
+    </button>
   )
 }
 
@@ -206,10 +251,12 @@ function AnimatedStep({ step, index, progress }: { step: Step; index: number; pr
 /**
  * Abertura da página inicial: o vídeo fica fixo ao fundo e as informações
  * importantes aparecem uma de cada vez conforme a pessoa rola.
- * Com "reduzir movimento" ligado, vira uma sequência simples, sem vídeo.
+ * Com "reduzir movimento" ligado, o vídeo continua (com botão de pausar),
+ * mas as informações aparecem em sequência, sem animação de rolagem.
  */
 export function HeroStory() {
   const reduceMotion = useReducedMotion()
+  const video = useBackgroundVideo()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
   const [active, setActive] = useState(-1)
@@ -229,11 +276,12 @@ export function HeroStory() {
     return (
       <div className="bg-cocoa-950 text-cream-50">
         <section className="relative min-h-[100svh] flex items-center overflow-hidden">
-          <img src={POSTER_SRC} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+          <BackgroundVideo video={video} className="opacity-60" />
           <div className="absolute inset-0 bg-gradient-to-r from-cocoa-950/90 via-cocoa-950/50 to-transparent" />
           <div className="relative w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-24">
             <HeroCopy />
           </div>
+          <VideoToggle video={video} className="absolute right-5 bottom-24 md:right-8 md:bottom-8" />
         </section>
         <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24 grid gap-20 md:grid-cols-2">
           {STEPS.map((step, i) => (
@@ -249,7 +297,7 @@ export function HeroStory() {
   return (
     <div ref={ref} className="relative bg-cocoa-950" style={{ height: `${(N + 1) * 100}svh` }}>
       <div className="sticky top-0 h-[100svh] overflow-hidden text-cream-50">
-        <BackgroundVideo play />
+        <BackgroundVideo video={video} />
         {/* Escurece o vídeo à esquerda (legibilidade) e um pouco mais conforme o scroll. */}
         <div className="absolute inset-0 bg-gradient-to-r from-cocoa-950/85 via-cocoa-950/40 to-transparent" />
         <motion.div className="absolute inset-0 bg-cocoa-950" style={{ opacity: shade }} />
@@ -289,6 +337,8 @@ export function HeroStory() {
           style={{ scaleX: barScale }}
           className="lg:hidden absolute top-16 left-0 right-0 h-px origin-left bg-caramel-rich/80"
         />
+
+        <VideoToggle video={video} className="absolute right-5 bottom-24 md:right-8 md:bottom-8" />
 
         {/* Convite para rolar */}
         <motion.div
