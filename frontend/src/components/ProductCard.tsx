@@ -48,7 +48,7 @@ export function ProductCard({ product, index = 0, inView = false }: ProductCardP
         )}
       </div>
       <div className="flex flex-col flex-1 p-6 gap-3">
-        <h3 className="font-serif text-[22px] leading-tight font-normal tracking-[-0.01em] text-ink">
+        <h3 className="font-display text-[20px] leading-tight font-semibold tracking-[-0.02em] text-ink">
           {/* O link cobre o card inteiro (::after), mas só o nome é lido como texto do link. */}
           <Link to={`/produto/${product.id}`} className="outline-none after:absolute after:inset-0 after:content-['']">
             {product.name}

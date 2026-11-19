@@ -111,7 +111,7 @@ export function Header({ showBack, showMenu, showNav, subtitle, overlay = false 
           ) : null}
         </div>
 
-        <Link to="/" className="font-serif text-[22px] md:text-[26px] font-normal tracking-[-0.02em] leading-none">
+        <Link to="/" className="font-display text-[20px] md:text-[22px] font-semibold tracking-[-0.03em] leading-none">
           {STORE.name}
         </Link>
 
@@ -170,7 +170,7 @@ export function Header({ showBack, showMenu, showNav, subtitle, overlay = false 
                   <Link
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
-                    className="block py-3 font-serif text-2xl hover:text-caramel-deep transition-colors"
+                    className="block py-3 font-display text-2xl hover:text-caramel-deep transition-colors"
                   >
                     {link.label}
                   </Link>

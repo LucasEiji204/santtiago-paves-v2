@@ -41,7 +41,7 @@ export function MenuPage() {
           <p className="eyebrow text-caramel-deep mb-4 flex items-center gap-4">
             <span className="rule-gold" aria-hidden="true" /> Cardápio
           </p>
-          <h1 className="font-serif text-display-lg-mobile md:text-display-lg text-ink">Escolha o seu pavê</h1>
+          <h1 className="font-display text-display-lg-mobile md:text-display-lg text-ink">Escolha o seu pavê</h1>
         </div>
         <section aria-label="Buscar" className="px-margin-mobile md:px-margin-desktop py-6">
           <div className="relative group">

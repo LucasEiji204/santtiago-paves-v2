@@ -1,8 +1,8 @@
 # Atelier du Pavé — Design System 2.0
 
-**Direção:** "private banking" aplicado à confeitaria. A sobriedade e a confiança das instituições
-financeiras premium (títulos serifados grandes e leves, muito espaço, filetes finos, paleta contida),
-com o calor de uma confeitaria (tons de cacau, creme e caramelo).
+**Direção:** a solidez e a clareza dos bancos digitais (títulos sans-serif firmes, muito espaço, filetes
+finos, paleta contida), com o calor de uma confeitaria (tons de cacau, creme e caramelo).
+**Mobile-first:** todo estilo parte do celular. Tamanhos maiores entram com `md:` (768px) e `xl:` (1280px).
 
 A fonte da verdade dos tokens é o bloco `@theme` em [`frontend/src/index.css`](../../frontend/src/index.css).
 Este documento explica como usá-los.
@@ -13,29 +13,29 @@ Este documento explica como usá-los.
 
 | Papel | Fonte | Por quê |
 |---|---|---|
-| Títulos, números grandes de destaque, citações | **Newsreader** (Google Fonts, variável, com itálico) | Serifada editorial com eixo de tamanho óptico. É a alternativa gratuita mais próxima da Tiempos Headline, muito usada em bancos privados e marcas premium. |
+| Títulos e destaques (`font-display`) | **Inter Tight** (Google Fonts) | Versão compacta da Inter, feita para tamanhos grandes. Firme e moderna, no estilo das marcas de bancos digitais. |
 | Texto, botões, menus, formulários, preços | **Inter** (Google Fonts, variável) | Padrão das fintechs (é a alternativa gratuita mais próxima da Söhne, usada pela Stripe). Foi desenhada para tela e tem algarismos tabulares. |
 
 Recursos ligados no `<html>`: `cv11` (a de um andar) e `ss01` (algarismos abertos) da Inter.
 
-### Escala
+### Escala (celular → desktop)
 
 | Classe | Tamanho / altura | Peso | Uso |
 |---|---|---|---|
-| `text-display-xl` | 88 / 0.98 | 360 | Só o título principal da página inicial (desktop) |
-| `text-display-lg` | 60 / 1.04 | 380 | Títulos de seção e de página (desktop) |
-| `text-display-lg-mobile` | 40 / 1.08 | 400 | Os mesmos títulos no celular |
-| `text-headline-md` | 40 / 1.1 | 400 | Títulos secundários |
-| `text-headline-sm` | 24 / 1.25 | 500 | Títulos de card e de bloco |
-| `text-body-lg` | 18 / 1.6 | 400 | Parágrafos de destaque |
-| `text-body-md` | 16 / 1.6 | 400 | Texto corrido |
+| `text-display-lg-mobile` | 36 / 1.08 | 500 | Títulos principais no celular (base) |
+| `md:text-display-lg` | 52 / 1.04 | 500 | Os mesmos títulos a partir de 768px |
+| `xl:text-display-xl` | 76 / 1.0 | 500 | Só o título de abertura, a partir de 1280px |
+| `text-headline-md` | 32 / 1.12 | 500 | Títulos de seção no celular |
+| `text-headline-sm` | 22 / 1.3 | 600 | Títulos de card e de bloco |
+| `text-body-lg` | 18 / 1.6 | 400 | Parágrafos de destaque (desktop) |
+| `text-body-md` | 16 / 1.6 | 400 | Texto corrido (base no celular) |
 | `text-label-md` | 14 / 20 | 500 | Rótulos, botões pequenos |
 | `text-label-sm` | 12 / 16 | 500 | Legendas |
 | `.eyebrow` | 12 / 16, caixa alta, +0.18em | 600 | Rótulo acima de títulos |
 
 **Regras**
-- Títulos em Newsreader com peso leve (360–400) e espaçamento negativo. Peso alto em serifada fica "jornal popular", não "banco".
-- Use `<em>` (itálico da Newsreader) para destacar a segunda metade de um título, geralmente na cor `cream-200` (fundo escuro) ou `caramel-deep` (fundo claro).
+- Títulos com peso médio (500–600) e espaçamento negativo (-0.02 a -0.04em). Nada de negrito pesado nem de itálico.
+- Para destacar parte de um título, use `<em>`: ele aparece só com outra cor (`cream-200` no escuro, `caramel-deep` no claro), sem itálico.
 - **Todo preço usa a classe `.price`**: Inter com algarismos tabulares, para os valores ficarem alinhados.
 - `text-wrap: balance` nos títulos e `pretty` nos parágrafos já vem aplicado globalmente.
 
@@ -96,7 +96,7 @@ Todos têm 48px de altura mínima (área de toque), formato de pílula e Inter 1
 - `overlay` (só na página inicial): transparente sobre o vídeo, vidro escuro enquanto a abertura está na tela e claro depois dela (`#apos-abertura`).
 
 ### Card de produto
-Fundo branco, `rounded-2xl`, borda `line`, imagem 4:3 que aproxima levemente no hover, nome em Newsreader 22px,
+Fundo branco, `rounded-2xl`, borda `line`, imagem 4:3 que aproxima levemente no hover, nome em Inter Tight 20px semibold,
 preço `.price` e botão "+" redondo, com filete separando o rodapé do card.
 
 ### Assinaturas visuais
@@ -107,7 +107,7 @@ preço `.price` e botão "+" redondo, com filete separando o rodapé do card.
 
 - Curva padrão: `--ease-out-soft` (`cubic-bezier(0.22, 1, 0.36, 1)`), com durações de 0,5–0,8 s.
 - Elementos entram com opacidade e um deslocamento de 24–40px, uma vez, quando aparecem na tela.
-- **Abertura da página inicial (`HeroStory`):** o vídeo fica fixo enquanto 4 "camadas" de informação aparecem uma por vez com o scroll (feito à mão, personalização, como pedir, pagamento e entrega).
+- **Abertura da página inicial (`HeroStory`):** o vídeo fica fixo e cada tela de rolagem mostra **um único texto**: primeiro a apresentação, depois 4 informações (feito à mão, personalização, como pedir, pagamento e entrega). A troca espera o texto anterior sair, então nunca há dois textos sobrepostos. No celular o texto fica na parte de baixo da tela; no desktop, à esquerda.
 - **Respeite "reduzir movimento":** o app inteiro usa `MotionConfig reducedMotion="user"`. Na abertura, as camadas deixam de depender da rolagem e aparecem em sequência; o vídeo continua (é lento e suave), com o botão de pausar.
 
 ## 6. Vídeo de fundo

@@ -52,7 +52,7 @@ export function LandingPage() {
                 <p className="eyebrow text-caramel-deep mb-4 flex items-center gap-4">
                   <span className="rule-gold" aria-hidden="true" /> Mais pedidos
                 </p>
-                <h2 className="font-serif text-headline-md md:text-display-lg text-ink">Nossos favoritos</h2>
+                <h2 className="font-display text-headline-md md:text-display-lg text-ink">Nossos favoritos</h2>
               </div>
               <Link to="/cardapio" className="btn btn-outline-dark self-start md:self-auto">
                 Ver cardápio completo
@@ -74,7 +74,7 @@ export function LandingPage() {
               <p className="eyebrow text-caramel-deep mb-4 flex items-center gap-4">
                 <span className="rule-gold" aria-hidden="true" /> Nossa história
               </p>
-              <h2 className="font-serif text-headline-md md:text-display-lg text-ink mb-8">
+              <h2 className="font-display text-headline-md md:text-display-lg text-ink mb-8">
                 Um clássico brasileiro, <em className="text-caramel-deep">com alma de alta confeitaria.</em>
               </h2>
               <div className="space-y-5 text-body-lg text-ink-soft">
@@ -98,7 +98,7 @@ export function LandingPage() {
                   className="w-14 h-14 rounded-full object-cover"
                 />
                 <figcaption>
-                  <blockquote className="font-serif italic text-xl text-ink">
+                  <blockquote className="font-display text-xl font-medium tracking-[-0.01em] text-ink">
                     “O segredo está no silêncio entre as camadas.”
                   </blockquote>
                   <p className="text-label-sm text-ink-soft mt-1">Chef fundadora</p>
@@ -132,7 +132,7 @@ export function LandingPage() {
               <p className="eyebrow text-caramel-rich mb-4 flex items-center gap-4">
                 <span className="rule-gold" aria-hidden="true" /> A experiência do ateliê
               </p>
-              <h2 className="font-serif text-headline-md md:text-display-lg">
+              <h2 className="font-display text-headline-md md:text-display-lg">
                 Excelência que se sente <em className="text-cream-200">na primeira colherada.</em>
               </h2>
             </motion.div>
@@ -145,7 +145,7 @@ export function LandingPage() {
                   className="py-10 md:pr-10 md:[&:not(:first-child)]:pl-10 md:[&:not(:last-child)]:border-r border-b md:border-b-0 border-cream-50/15"
                 >
                   <Icon name={item.icon} className="text-caramel-rich text-3xl mb-6" />
-                  <h3 className="font-serif text-headline-sm mb-3">{item.title}</h3>
+                  <h3 className="font-display text-headline-sm mb-3">{item.title}</h3>
                   <p className="text-cream-50/70">{item.desc}</p>
                 </motion.div>
               ))}
@@ -166,7 +166,7 @@ export function LandingPage() {
             {...reveal}
             className="relative max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-28 md:py-36 text-center"
           >
-            <h2 className="font-serif text-display-lg-mobile md:text-display-lg max-w-3xl mx-auto">
+            <h2 className="font-display text-display-lg-mobile md:text-display-lg max-w-3xl mx-auto">
               Pronto para o seu <em className="text-cream-200">momento doce?</em>
             </h2>
             <p className="mt-6 text-body-lg text-cream-50/75 max-w-xl mx-auto">

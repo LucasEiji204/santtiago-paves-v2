@@ -1,10 +1,10 @@
 import {
+  AnimatePresence,
   motion,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useTransform,
-  type MotionValue,
 } from 'framer-motion'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
@@ -181,21 +181,21 @@ function VideoToggle({ video, className = '' }: { video: ReturnType<typeof useBa
   )
 }
 
-function HeroCopy() {
+function HeroCopy({ titleAs: Title = 'h1' }: { titleAs?: 'h1' | 'p' }) {
   return (
-    <div className="max-w-3xl">
-      <p className="eyebrow text-caramel-rich mb-6 flex items-center gap-4">
+    <div className="max-w-2xl">
+      <p className="eyebrow text-caramel-rich mb-5 flex items-center gap-4">
         <span className="rule-gold" aria-hidden="true" />
         Confeitaria artesanal
       </p>
-      <h1 className="font-serif text-display-lg-mobile md:text-display-xl text-cream-50">
+      <Title className="text-display-lg-mobile md:text-display-lg xl:text-display-xl text-cream-50">
         A arte do pavê, <em className="text-cream-200">em camadas.</em>
-      </h1>
-      <p className="mt-8 max-w-xl text-body-lg text-cream-50/80">
+      </Title>
+      <p className="mt-6 md:mt-8 max-w-xl text-body-md md:text-body-lg text-cream-50/80">
         Pavês feitos à mão, com ingredientes selecionados e o tempo que a excelência exige. Monte seu pedido online e
         finalize pelo WhatsApp.
       </p>
-      <div className="mt-10 flex flex-col sm:flex-row gap-3">
+      <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-3">
         <Link to="/cardapio" className="btn btn-light">
           Ver cardápio
           <Icon name="arrow_forward" className="text-[20px]" />
@@ -208,82 +208,61 @@ function HeroCopy() {
   )
 }
 
-function StepContent({ step, index }: { step: Step; index: number }) {
+function StepContent({ step, index, titleAs: Title = 'h2' }: { step: Step; index: number; titleAs?: 'h2' | 'p' }) {
   return (
     <div className="max-w-xl">
-      <p className="eyebrow text-caramel-rich mb-6 flex items-center gap-4">
-        <span className="price tracking-normal">{String(index + 1).padStart(2, '0')}</span>
+      <p className="price text-sm text-caramel-rich mb-5 flex items-center gap-4">
+        {String(index + 1).padStart(2, '0')}
         <span className="rule-gold" aria-hidden="true" />
-        {step.label}
+        <span className="text-cream-50/50">{String(N).padStart(2, '0')}</span>
       </p>
-      <h2 className="font-serif text-display-lg-mobile md:text-display-lg text-cream-50 [&_em]:text-cream-200">
+      <Title className="text-display-lg-mobile md:text-display-lg text-cream-50 [&_em]:text-cream-200">
         {step.title}
-      </h2>
-      <div className="mt-8 text-body-lg text-cream-50/80">{step.body}</div>
+      </Title>
+      <div className="mt-6 md:mt-8 text-body-md md:text-body-lg text-cream-50/80">{step.body}</div>
     </div>
   )
 }
 
-/** Faz uma camada aparecer e sumir num trecho do scroll. */
-function useStepVisibility(progress: MotionValue<number>, index: number) {
-  const f = (x: number) => x / N
-  const last = index === N - 1
-  const input = last
-    ? [f(index + 0.35), f(index + 0.65)]
-    : [f(index + 0.35), f(index + 0.65), f(index + 1.0), f(index + 1.3)]
-  const opacity = useTransform(progress, input, last ? [0, 1] : [0, 1, 1, 0])
-  const y = useTransform(progress, input, last ? [40, 0] : [40, 0, 0, -40])
-  return { opacity, y }
-}
-
-function AnimatedStep({ step, index, progress }: { step: Step; index: number; progress: MotionValue<number> }) {
-  const { opacity, y } = useStepVisibility(progress, index)
-  const pointerEvents = useTransform(opacity, (o) => (o > 0.5 ? 'auto' : 'none'))
-  return (
-    <motion.div style={{ opacity, y, pointerEvents }} className="absolute inset-0 flex items-center">
-      <div className="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-        <StepContent step={step} index={index} />
-      </div>
-    </motion.div>
-  )
+const swap = {
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
+  exit: { opacity: 0, y: -24, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] as const } },
 }
 
 /**
- * Abertura da página inicial: o vídeo fica fixo ao fundo e as informações
- * importantes aparecem uma de cada vez conforme a pessoa rola.
+ * Abertura da página inicial: o vídeo fica fixo ao fundo e, a cada "tela" de
+ * rolagem, um único texto aparece — primeiro a apresentação, depois as
+ * informações importantes, uma por vez (nunca dois textos sobrepostos).
  * Com "reduzir movimento" ligado, o vídeo continua (com botão de pausar),
- * mas as informações aparecem em sequência, sem animação de rolagem.
+ * mas as informações aparecem em sequência, sem depender da rolagem.
  */
 export function HeroStory() {
   const reduceMotion = useReducedMotion()
   const video = useBackgroundVideo()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
-  const [active, setActive] = useState(-1)
 
-  useMotionValueEvent(scrollYProgress, 'change', (p) => {
-    const f = p * N
-    setActive(f < 0.5 ? -1 : Math.min(N - 1, Math.floor(f - 0.15)))
-  })
+  // Fase atual: -1 = apresentação; 0..N-1 = informações. Cada fase ocupa uma tela de rolagem.
+  const phaseFrom = (p: number) => Math.min(N, Math.floor(p * (N + 1))) - 1
+  const [phase, setPhase] = useState(() => phaseFrom(scrollYProgress.get()))
+  useMotionValueEvent(scrollYProgress, 'change', (p) => setPhase(phaseFrom(p)))
 
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.35 / N], [1, 0])
-  const heroY = useTransform(scrollYProgress, [0, 0.35 / N], [0, -60])
-  const shade = useTransform(scrollYProgress, [0, 0.4 / N], [0.35, 0.62])
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.15 / N], [1, 0])
+  const shade = useTransform(scrollYProgress, [0, 1 / (N + 1)], [0.3, 0.6])
   const barScale = useTransform(scrollYProgress, [0, 1], [0, 1])
 
   if (reduceMotion) {
     return (
       <div className="bg-cocoa-950 text-cream-50">
-        <section className="relative min-h-[100svh] flex items-center overflow-hidden">
+        <section className="relative min-h-[100svh] flex items-end md:items-center overflow-hidden">
           <BackgroundVideo video={video} className="opacity-60" />
-          <div className="absolute inset-0 bg-gradient-to-r from-cocoa-950/90 via-cocoa-950/50 to-transparent" />
-          <div className="relative w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-24">
+          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-cocoa-950/95 via-cocoa-950/50 to-cocoa-950/10" />
+          <div className="relative w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-24 pb-28 md:pb-0">
             <HeroCopy />
           </div>
           <VideoToggle video={video} className="absolute right-5 bottom-24 md:right-8 md:bottom-8" />
         </section>
-        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24 grid gap-20 md:grid-cols-2">
+        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20 md:py-24 grid gap-16 md:gap-20 md:grid-cols-2">
           {STEPS.map((step, i) => (
             <section key={step.id} aria-label={step.label}>
               <StepContent step={step} index={i} />
@@ -294,63 +273,67 @@ export function HeroStory() {
     )
   }
 
+  const step = phase >= 0 ? STEPS[phase] : null
+
   return (
-    <div ref={ref} className="relative bg-cocoa-950" style={{ height: `${(N + 1) * 100}svh` }}>
+    <div ref={ref} className="relative bg-cocoa-950" style={{ height: `${(N + 2) * 100}svh` }}>
+      {/* Leitores de tela recebem todas as informações de uma vez, sem depender da rolagem. */}
+      <div className="sr-only">
+        {STEPS.map((s, i) => (
+          <section key={s.id} aria-label={s.label}>
+            <StepContent step={s} index={i} />
+          </section>
+        ))}
+      </div>
+
       <div className="sticky top-0 h-[100svh] overflow-hidden text-cream-50">
         <BackgroundVideo video={video} />
-        {/* Escurece o vídeo à esquerda (legibilidade) e um pouco mais conforme o scroll. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cocoa-950/85 via-cocoa-950/40 to-transparent" />
+        {/* No celular o texto fica embaixo (escurece de baixo para cima); no desktop, à esquerda. */}
+        <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-cocoa-950/95 via-cocoa-950/45 to-cocoa-950/5" />
         <motion.div className="absolute inset-0 bg-cocoa-950" style={{ opacity: shade }} />
 
-        <motion.div style={{ opacity: heroOpacity, y: heroY }} className="absolute inset-0 flex items-center">
-          <div className="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-16">
-            <HeroCopy />
+        <div className="absolute inset-0 flex items-end md:items-center">
+          <div className="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-24 pb-40 md:py-0">
+            <AnimatePresence mode="wait" initial={false}>
+              {step ? (
+                <motion.div key={step.id} {...swap} aria-hidden="true">
+                  <StepContent step={step} index={phase} titleAs="p" />
+                </motion.div>
+              ) : (
+                <motion.div key="apresentacao" {...swap}>
+                  <HeroCopy />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </motion.div>
+        </div>
 
-        {STEPS.map((step, i) => (
-          <AnimatedStep key={step.id} step={step} index={i} progress={scrollYProgress} />
-        ))}
-
-        {/* Índice das camadas (desktop) */}
-        <nav
-          aria-hidden="true"
-          className="hidden lg:flex flex-col gap-4 absolute right-[max(4rem,calc((100vw_-_1240px)/2_+_4rem))] top-1/2 -translate-y-1/2"
-        >
-          {STEPS.map((step, i) => (
-            <div key={step.id} className="flex items-center gap-4 justify-end">
-              <span className={`text-sm transition-all duration-500 ${active === i ? 'opacity-100' : 'opacity-40'}`}>
-                {step.label}
-              </span>
-              <span
-                className={`block h-px transition-all duration-500 ${
-                  active === i ? 'w-10 bg-caramel-rich' : 'w-5 bg-cream-50/40'
-                }`}
-              />
-            </div>
-          ))}
-        </nav>
-
-        {/* Barra de progresso (celular) */}
+        {/* Progresso da abertura */}
         <motion.div
           aria-hidden="true"
           style={{ scaleX: barScale }}
-          className="lg:hidden absolute top-16 left-0 right-0 h-px origin-left bg-caramel-rich/80"
+          className="absolute top-16 md:top-20 left-0 right-0 h-px origin-left bg-caramel-rich/80"
         />
 
         <VideoToggle video={video} className="absolute right-5 bottom-24 md:right-8 md:bottom-8" />
 
         {/* Convite para rolar */}
-        <motion.div
-          aria-hidden="true"
-          style={{ opacity: cueOpacity }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-cream-50/70"
-        >
-          <span className="eyebrow">Role para descobrir</span>
-          <span className="relative block w-px h-10 overflow-hidden bg-cream-50/20">
-            <span className="absolute inset-x-0 top-0 h-1/3 bg-cream-50 animate-scroll-cue" />
-          </span>
-        </motion.div>
+        <AnimatePresence>
+          {phase < 0 && (
+            <motion.div
+              aria-hidden="true"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute bottom-24 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-cream-50/70"
+            >
+              <span className="eyebrow hidden md:block">Role para descobrir</span>
+              <span className="relative block w-px h-10 overflow-hidden bg-cream-50/20">
+                <span className="absolute inset-x-0 top-0 h-1/3 bg-cream-50 animate-scroll-cue" />
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )
