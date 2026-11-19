@@ -2,11 +2,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react'
-import type { Addon } from '../data/products'
+import { getProductById, type Addon } from '../data/products'
 
 export interface CartItem {
   cartId: string
@@ -21,7 +22,7 @@ export interface CartItem {
   observations: string
 }
 
-interface AddToCartParams {
+export interface AddToCartParams {
   productId: string
   name: string
   description: string
@@ -44,6 +45,21 @@ interface CartContextValue {
 
 const CartContext = createContext<CartContextValue | null>(null)
 
+/**
+ * O carrinho fica salvo apenas no navegador do cliente (localStorage),
+ * para não se perder ao recarregar a página. Só guardamos os produtos
+ * escolhidos — nenhum dado pessoal (nome, telefone, endereço).
+ */
+const STORAGE_KEY = 'atelier-du-pave:cart:v1'
+const MAX_QUANTITY = 99
+
+interface StoredItem {
+  productId: string
+  quantity: number
+  addonIds: string[]
+  observations: string
+}
+
 function makeCartId(productId: string, addons: Addon[], observations: string): string {
   const addonKey = addons.map((a) => a.id).sort().join(',')
   return `${productId}::${addonKey}::${observations.trim()}`
@@ -53,11 +69,99 @@ function calcUnitPrice(basePrice: number, addons: Addon[]): number {
   return basePrice + addons.reduce((sum, a) => sum + a.price, 0)
 }
 
+function clampQuantity(quantity: number): number {
+  return Math.min(MAX_QUANTITY, Math.max(1, Math.floor(quantity)))
+}
+
+/**
+ * Remonta um item salvo a partir do catálogo atual, para que preço,
+ * nome e imagem estejam sempre atualizados (e itens removidos do
+ * cardápio desapareçam do carrinho).
+ */
+function hydrate(stored: StoredItem): CartItem | null {
+  const product = getProductById(stored.productId)
+  if (!product) return null
+  const addons = (product.addons ?? []).filter((a) => stored.addonIds.includes(a.id))
+  const observations = stored.observations.trim()
+  return {
+    cartId: makeCartId(product.id, addons, observations),
+    productId: product.id,
+    name: product.name,
+    description: product.description,
+    image: product.image,
+    basePrice: product.price,
+    unitPrice: calcUnitPrice(product.price, addons),
+    quantity: clampQuantity(stored.quantity),
+    addons,
+    observations,
+  }
+}
+
+function isStoredItem(value: unknown): value is StoredItem {
+  if (typeof value !== 'object' || value === null) return false
+  const v = value as Record<string, unknown>
+  return (
+    typeof v.productId === 'string' &&
+    typeof v.quantity === 'number' &&
+    Number.isFinite(v.quantity) &&
+    Array.isArray(v.addonIds) &&
+    v.addonIds.every((id) => typeof id === 'string') &&
+    typeof v.observations === 'string'
+  )
+}
+
+function loadCart(): CartItem[] {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY)
+    if (!raw) return []
+    const parsed: unknown = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return []
+    return parsed
+      .filter(isStoredItem)
+      .map(hydrate)
+      .filter((item): item is CartItem => item !== null)
+  } catch {
+    return []
+  }
+}
+
+function saveCart(items: CartItem[]) {
+  try {
+    if (items.length === 0) {
+      window.localStorage.removeItem(STORAGE_KEY)
+      return
+    }
+    const stored: StoredItem[] = items.map((i) => ({
+      productId: i.productId,
+      quantity: i.quantity,
+      addonIds: i.addons.map((a) => a.id),
+      observations: i.observations,
+    }))
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(stored))
+  } catch {
+    // Navegação anônima ou armazenamento cheio: o carrinho só não persiste.
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([])
+  const [items, setItems] = useState<CartItem[]>(loadCart)
+
+  useEffect(() => {
+    saveCart(items)
+  }, [items])
+
+  // Mantém o carrinho sincronizado entre abas abertas do site.
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY) setItems(loadCart())
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [])
 
   const addItem = useCallback((params: AddToCartParams) => {
-    const cartId = makeCartId(params.productId, params.addons, params.observations)
+    const observations = params.observations.trim()
+    const cartId = makeCartId(params.productId, params.addons, observations)
     const unitPrice = calcUnitPrice(params.basePrice, params.addons)
 
     setItems((prev) => {
@@ -65,7 +169,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (existing) {
         return prev.map((i) =>
           i.cartId === cartId
-            ? { ...i, quantity: i.quantity + params.quantity }
+            ? { ...i, quantity: clampQuantity(i.quantity + params.quantity) }
             : i,
         )
       }
@@ -79,9 +183,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
           image: params.image,
           unitPrice,
           basePrice: params.basePrice,
-          quantity: params.quantity,
+          quantity: clampQuantity(params.quantity),
           addons: params.addons,
-          observations: params.observations,
+          observations,
         },
       ]
     })
@@ -97,7 +201,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return
     }
     setItems((prev) =>
-      prev.map((i) => (i.cartId === cartId ? { ...i, quantity } : i)),
+      prev.map((i) => (i.cartId === cartId ? { ...i, quantity: clampQuantity(quantity) } : i)),
     )
   }, [])
 

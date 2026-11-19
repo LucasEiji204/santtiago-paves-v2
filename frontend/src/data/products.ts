@@ -82,7 +82,7 @@ export const PRODUCTS: Product[] = [
     price: 28,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAHk8ztEcJNQ87pBZGtp00zLjaMCEo_UIdMqiClLMWjZHkgGFl7c5ijG8ARRu9bB0eCB0BS07cDV2YjHNXt0YcdO35aLxnYd9oz70I5bsx8R1zwl1-rJ3bNYVuki3DgLR9bQE71usRnJl01YKQv-fEui_mxOX-s0fsKJ48yQ8ldsTynqtZszFw0UQzEFm8ZKCeQxufO-I72fhp8S-FmiPZcALT8k1cIBvQHm2eSO00xdDQs7wmecziC',
     category: 'Sobremesas',
-    badge: 'BEST SELLER',
+    badge: 'Mais Vendido',
     addons: DEFAULT_ADDONS,
   },
   {
@@ -125,4 +125,23 @@ export const FAVORITES = PRODUCTS.filter((p) =>
 
 export function getProductById(id: string): Product | undefined {
   return PRODUCTS.find((p) => p.id === id)
+}
+
+/** Dados de um produto no formato que o carrinho espera (sem adicionais). */
+export function productToCartParams(product: Product, quantity = 1) {
+  return {
+    productId: product.id,
+    name: product.name,
+    description: product.description,
+    image: product.image,
+    basePrice: product.price,
+    quantity,
+    addons: [] as Addon[],
+    observations: '',
+  }
+}
+
+/** id HTML estável para a aba de uma categoria (sem acentos). */
+export function categoryTabId(category: Category): string {
+  return `aba-${category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()}`
 }

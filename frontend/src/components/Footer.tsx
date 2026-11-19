@@ -1,70 +1,86 @@
 import { Link } from 'react-router-dom'
+import { STORE, formatWhatsAppDisplay, whatsAppLink } from '../config'
 import { Icon } from './Icon'
+
+const YEAR = new Date().getFullYear()
+
+const linkClass = 'opacity-80 hover:opacity-100 hover:text-caramel-rich transition-colors'
+
+function ContactList() {
+  return (
+    <>
+      <a href={whatsAppLink()} target="_blank" rel="noopener noreferrer" className={`${linkClass} flex items-center gap-2`}>
+        <Icon name="call" className="text-sm" /> WhatsApp {formatWhatsAppDisplay()}
+        <span className="sr-only">(abre em nova aba)</span>
+      </a>
+      {STORE.email && (
+        <a href={`mailto:${STORE.email}`} className={`${linkClass} flex items-center gap-2`}>
+          <Icon name="mail" className="text-sm" /> {STORE.email}
+        </a>
+      )}
+      {STORE.city && (
+        <span className="opacity-80 flex items-center gap-2">
+          <Icon name="location_on" className="text-sm" /> {STORE.city}
+        </span>
+      )}
+      {STORE.social.instagram && (
+        <a href={STORE.social.instagram} target="_blank" rel="noopener noreferrer" className={`${linkClass} flex items-center gap-2`}>
+          <Icon name="photo_camera" className="text-sm" /> Instagram
+          <span className="sr-only">(abre em nova aba)</span>
+        </a>
+      )}
+    </>
+  )
+}
 
 export function Footer({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <footer className="w-full py-16 px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-8 bg-chocolate-dark text-cream-vanilla mt-20 mb-20 md:mb-0">
         <div className="flex flex-col items-center md:items-start gap-4">
-          <h2 className="font-display-lg text-cream-vanilla">Atelier du Pavé</h2>
+          <p className="font-display-lg text-headline-md text-cream-vanilla">{STORE.name}</p>
           <p className="font-body-md text-cream-vanilla/80 max-w-xs text-center md:text-left">
-            © 2024 Atelier du Pavé. Artesanalmente doce. Transformando momentos em lembranças deliciosas.
+            © {YEAR} {STORE.name}. {STORE.tagline}. Transformando momentos em lembranças deliciosas.
           </p>
         </div>
-        <div className="flex flex-wrap justify-center gap-6 md:gap-12">
-          <a href="/#historia" className="text-cream-vanilla/80 font-body-md hover:text-caramel-rich transition-colors">Nossa História</a>
-          <Link to="/cardapio" className="text-cream-vanilla/80 font-body-md hover:text-caramel-rich transition-colors">Cardápio</Link>
-          <a href="#" className="text-cream-vanilla/80 font-body-md hover:text-caramel-rich transition-colors">Privacidade</a>
-          <a href="#" className="text-cream-vanilla/80 font-body-md hover:text-caramel-rich transition-colors">Contato</a>
-        </div>
+        <nav aria-label="Rodapé" className="flex flex-wrap justify-center gap-6 md:gap-12 font-body-md">
+          <Link to="/#historia" className={linkClass}>Nossa História</Link>
+          <Link to="/cardapio" className={linkClass}>Cardápio</Link>
+          <Link to="/privacidade" className={linkClass}>Privacidade</Link>
+          <a href={whatsAppLink()} target="_blank" rel="noopener noreferrer" className={linkClass}>
+            Contato<span className="sr-only"> pelo WhatsApp (abre em nova aba)</span>
+          </a>
+        </nav>
       </footer>
     )
   }
 
   return (
-    <footer id="contato" className="bg-chocolate-dark text-cream-vanilla w-full py-16 px-margin-mobile md:px-margin-desktop flex flex-col gap-12">
+    <footer id="contato" className="scroll-mt-24 bg-chocolate-dark text-cream-vanilla w-full py-16 pb-28 md:pb-16 px-margin-mobile md:px-margin-desktop flex flex-col gap-12">
       <div className="flex flex-col md:flex-row justify-between items-start gap-12">
         <div className="max-w-xs">
-          <h2 className="font-display-lg text-display-lg text-cream-vanilla mb-4">Atelier du Pavé</h2>
-          <p className="opacity-70 font-body-md mb-6">Artesanalmente doce. Transformando tradição em momentos de luxo e prazer.</p>
-          <div className="flex gap-4">
-            {['camera', 'share', 'alternate_email'].map((icon) => (
-              <a key={icon} href="#" className="w-10 h-10 rounded-full border border-cream-vanilla/20 flex items-center justify-center hover:bg-caramel-rich transition-colors">
-                <Icon name={icon} className="text-xl" />
-              </a>
-            ))}
-          </div>
+          <p className="font-display-lg text-display-lg text-cream-vanilla mb-4">{STORE.name}</p>
+          <p className="opacity-80 font-body-md">{STORE.tagline}. Transformando tradição em momentos de luxo e prazer.</p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
+          <nav aria-labelledby="rodape-navegacao" className="flex flex-col gap-4">
+            <h2 id="rodape-navegacao" className="font-bold text-caramel-rich">Navegação</h2>
+            <Link to="/#historia" className={linkClass}>Nossa História</Link>
+            <Link to="/cardapio" className={linkClass}>Cardápio</Link>
+            <Link to="/#favoritos" className={linkClass}>Favoritos</Link>
+          </nav>
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-caramel-rich">Navegação</h4>
-            <a href="/#historia" className="opacity-80 hover:text-caramel-rich transition-colors">Nossa História</a>
-            <Link to="/cardapio" className="opacity-80 hover:text-caramel-rich transition-colors">Cardápio</Link>
-            <a href="/#favoritos" className="opacity-80 hover:text-caramel-rich transition-colors">Favoritos</a>
-            <a href="#" className="opacity-80 hover:text-caramel-rich transition-colors">Lojas</a>
+            <h2 className="font-bold text-caramel-rich">Institucional</h2>
+            <Link to="/privacidade" className={linkClass}>Política de Privacidade</Link>
           </div>
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-caramel-rich">Institucional</h4>
-            {['Privacidade', 'Termos', 'Trabalhe Conosco', 'Franquias'].map((item) => (
-              <a key={item} href="#" className="opacity-80 hover:text-caramel-rich transition-colors">{item}</a>
-            ))}
-          </div>
-          <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-caramel-rich">Contato</h4>
-            <span className="opacity-80 flex items-center gap-2">
-              <Icon name="call" className="text-sm" /> (11) 9999-9999
-            </span>
-            <span className="opacity-80 flex items-center gap-2">
-              <Icon name="mail" className="text-sm" /> contato@atelierdupave.com.br
-            </span>
-            <span className="opacity-80 flex items-center gap-2">
-              <Icon name="location_on" className="text-sm" /> São Paulo, SP
-            </span>
+            <h2 className="font-bold text-caramel-rich">Contato</h2>
+            <ContactList />
           </div>
         </div>
       </div>
-      <div className="pt-12 border-t border-cream-vanilla/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-60">
-        <p>© 2024 Atelier du Pavé. Artesanalmente doce.</p>
+      <div className="pt-12 border-t border-cream-vanilla/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-70">
+        <p>© {YEAR} {STORE.name}. {STORE.tagline}.</p>
         <p>Desenvolvido com sofisticação.</p>
       </div>
     </footer>

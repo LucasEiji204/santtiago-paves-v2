@@ -183,3 +183,15 @@ A standard **0.5rem (8px)** radius is the baseline for inputs and small componen
 ### Accessibility
 - Ensure all text-on-cream combinations maintain a 4.5:1 contrast ratio.
 - Secondary #8C6B5E should be used cautiously for small text; prefer Primary #4A312D for readability.
+## Implementação
+
+Os tokens usados de fato pelo site estão em `frontend/src/index.css` (bloco `@theme`) — essa é a fonte da
+verdade. Diferenças em relação a este documento:
+
+- **Primary** no código é `#321c19` (texto e títulos); `#4A312D` é o `primary-container` (botões e superfícies).
+- Cores extras da marca: `chocolate-dark #2D1D1B`, `caramel-rich #B58463`, `cream-vanilla #FDFBF7`,
+  `pistachio-accent #A3B18A`.
+- Variações para acessibilidade (contraste mínimo 4,5:1 sobre o creme):
+  - `caramel-deep #8A5A3B` — texto caramelo sobre fundos claros (`caramel-rich` só sobre fundos escuros);
+  - `pistachio-deep #667452` — fundo de confirmação com texto branco;
+  - `whatsapp #1A7F4B` — botão de enviar pedido com texto branco.

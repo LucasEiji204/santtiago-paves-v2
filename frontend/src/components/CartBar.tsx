@@ -1,12 +1,11 @@
 import { motion } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { formatCurrency } from '../utils/format'
 import { Icon } from './Icon'
 
 export function CartBar() {
   const { itemCount, subtotal } = useCart()
-  const navigate = useNavigate()
 
   if (itemCount === 0) return null
 
@@ -22,27 +21,30 @@ export function CartBar() {
           <Icon name="shopping_basket" className="text-primary text-3xl" />
           <motion.span
             key={itemCount}
+            aria-hidden="true"
             initial={{ scale: 1.4 }}
             animate={{ scale: 1 }}
-            className="absolute -top-1 -right-1 bg-caramel-rich text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold"
+            className="absolute -top-1 -right-1 bg-caramel-deep text-white text-[11px] min-w-5 h-5 px-1 flex items-center justify-center rounded-full font-bold"
           >
             {itemCount}
           </motion.span>
         </div>
         <div>
-          <p className="text-label-sm text-on-surface-variant">Subtotal</p>
+          <p className="text-label-sm text-on-surface-variant">
+            Subtotal <span className="sr-only">({itemCount} {itemCount === 1 ? 'item' : 'itens'})</span>
+          </p>
           <p className="font-headline-sm text-primary leading-none">{formatCurrency(subtotal)}</p>
         </div>
       </div>
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => navigate('/carrinho')}
-        className="bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary-container transition-all shadow-lg flex items-center gap-2"
-      >
-        Ver Sacola
-        <Icon name="arrow_forward" className="text-sm" />
-      </motion.button>
+      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
+        <Link
+          to="/carrinho"
+          className="bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary-container transition-colors shadow-lg flex items-center gap-2"
+        >
+          Ver Sacola
+          <Icon name="arrow_forward" className="text-sm" />
+        </Link>
+      </motion.div>
     </motion.div>
   )
 }
