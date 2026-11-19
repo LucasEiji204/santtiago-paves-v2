@@ -109,7 +109,7 @@ export function CartPage() {
                             </p>
                           )}
                         </div>
-                        <p className="font-bold text-primary text-body-lg whitespace-nowrap">
+                        <p className="price font-medium text-primary text-body-lg whitespace-nowrap">
                           {formatCurrency(item.unitPrice * item.quantity)}
                         </p>
                       </div>
@@ -190,7 +190,7 @@ export function CartPage() {
                     key={subtotal}
                     initial={{ scale: 1.1 }}
                     animate={{ scale: 1 }}
-                    className="text-headline-sm text-cream-vanilla font-bold"
+                    className="price text-headline-sm text-cream-vanilla"
                   >
                     {formatCurrency(subtotal)}
                   </motion.span>

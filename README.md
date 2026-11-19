@@ -12,6 +12,7 @@ O site não tem backend nem banco de dados: nenhum dado pessoal fica salvo. Deta
 frontend/   App React + Vite + Tailwind (é o que vai para o ar)
 docs/
   design-system/   Tokens e regras visuais (DESIGN.md)
+  video/           Script que gera o vídeo de fundo da página inicial
   templates/       Telas originais exportadas do Stitch (referência, não usadas no build)
 ```
 

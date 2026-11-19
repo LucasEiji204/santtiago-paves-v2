@@ -37,7 +37,12 @@ export function MenuPage() {
       <PageTitle title="Cardápio" />
       <Header />
       <main id="conteudo" className="max-w-container-max mx-auto pb-40">
-        <h1 className="sr-only">Cardápio</h1>
+        <div className="px-margin-mobile md:px-margin-desktop pt-10 md:pt-16 pb-2">
+          <p className="eyebrow text-caramel-deep mb-4 flex items-center gap-4">
+            <span className="rule-gold" aria-hidden="true" /> Cardápio
+          </p>
+          <h1 className="font-serif text-display-lg-mobile md:text-display-lg text-ink">Escolha o seu pavê</h1>
+        </div>
         <section aria-label="Buscar" className="px-margin-mobile md:px-margin-desktop py-6">
           <div className="relative group">
             <Icon name="search" className="absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-caramel-deep transition-colors" />

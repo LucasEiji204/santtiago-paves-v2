@@ -114,7 +114,7 @@ function ProductDetailPage({ product }: { product: Product }) {
                 <span className="text-caramel-deep font-label-md uppercase tracking-widest mb-2 block">{product.tagline}</span>
               )}
               <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-2">{product.name}</h1>
-              <p className="text-primary text-headline-sm font-semibold">{formatCurrency(product.price)}</p>
+              <p className="price text-primary text-headline-sm">{formatCurrency(product.price)}</p>
               <p className="mt-6 text-on-surface-variant font-body-lg leading-relaxed">{product.description}</p>
             </div>
 
@@ -142,7 +142,7 @@ function ProductDetailPage({ product }: { product: Product }) {
                           />
                           <span className="font-body-md text-primary">{addon.name}</span>
                         </span>
-                        <span className="text-on-surface-variant font-label-md">+ {formatCurrency(addon.price)}</span>
+                        <span className="price text-on-surface-variant font-label-md">+ {formatCurrency(addon.price)}</span>
                       </label>
                     )
                   })}
@@ -226,7 +226,7 @@ function ProductDetailPage({ product }: { product: Product }) {
             {!added && (
               <>
                 <span aria-hidden="true" className="opacity-40">•</span>
-                <span>{formatCurrency(displayTotal)}</span>
+                <span className="price">{formatCurrency(displayTotal)}</span>
               </>
             )}
           </motion.button>

@@ -33,7 +33,7 @@ export function CartBar() {
           <p className="text-label-sm text-on-surface-variant">
             Subtotal <span className="sr-only">({itemCount} {itemCount === 1 ? 'item' : 'itens'})</span>
           </p>
-          <p className="font-headline-sm text-primary leading-none">{formatCurrency(subtotal)}</p>
+          <p className="price text-lg font-medium text-primary leading-none mt-1">{formatCurrency(subtotal)}</p>
         </div>
       </div>
       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>

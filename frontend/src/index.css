@@ -1,105 +1,169 @@
 @import "tailwindcss";
 
+/*
+ * Atelier du Pavé — Design System 2.0
+ * Direção: "private banking" aplicado à confeitaria.
+ *   - Newsreader (serifada editorial) para títulos: autoridade e sofisticação.
+ *   - Inter (sans de fintech) para texto, botões e números: clareza.
+ *   - Paleta quente e contida: tinta de cacau, papel creme, caramelo como acento.
+ * Documentação completa: docs/design-system/DESIGN.md
+ */
+
 @theme {
-  --color-primary: #321c19;
-  --color-on-primary: #ffffff;
-  --color-primary-container: #4a312d;
-  --color-on-primary-container: #bb9893;
-  --color-secondary: #76574b;
+  /* ---------- Cores base ---------- */
+  --color-ink: #1f1714;            /* texto principal */
+  --color-ink-soft: #5a4b44;       /* texto secundário (7,4:1 no papel) */
+  --color-ink-muted: #7a6a62;      /* placeholders e legendas (4,6:1) */
+  --color-paper: #f7f2ea;          /* fundo da página */
+  --color-line: #e2d8ca;           /* divisórias finas */
+  --color-cocoa-950: #17100d;      /* seções escuras */
+  --color-cocoa-900: #241915;
+  --color-cocoa-800: #2b1f1a;      /* botões escuros */
+  --color-cocoa-700: #3d2c25;
+  --color-cream-50: #faf6f0;       /* texto sobre fundo escuro */
+  --color-cream-200: #e9dccb;
+  --color-gold: #b8956a;           /* filetes e detalhes */
+
+  /* ---------- Papéis (nomes usados pelos componentes) ---------- */
+  --color-primary: #1f1714;
+  --color-on-primary: #faf6f0;
+  --color-primary-container: #2b1f1a;
+  --color-on-primary-container: #d9c4ad;
+  --color-secondary: #5a4b44;
   --color-on-secondary: #ffffff;
-  --color-secondary-container: #fed4c4;
-  --color-on-secondary-container: #795a4d;
-  --color-tertiary: #301e0a;
-  --color-tertiary-container: #48331d;
-  --color-on-tertiary-container: #b99b7e;
-  --color-background: #fef9f3;
-  --color-on-background: #1d1b18;
-  --color-surface: #fef9f3;
-  --color-on-surface: #1d1b18;
-  --color-on-surface-variant: #504442;
-  --color-surface-dim: #ded9d4;
-  --color-surface-variant: #e6e2dc;
-  --color-surface-container: #f2ede7;
-  --color-surface-container-low: #f8f3ed;
-  --color-surface-container-high: #ece7e2;
-  --color-surface-container-highest: #e6e2dc;
+  --color-secondary-container: #efe3d3;
+  --color-on-secondary-container: #4a3b34;
+  --color-tertiary: #8a5a3b;
+  --color-tertiary-container: #c99a6e;
+  --color-on-tertiary-container: #2b1f1a;
+  --color-background: #f7f2ea;
+  --color-on-background: #1f1714;
+  --color-surface: #f7f2ea;
+  --color-on-surface: #1f1714;
+  --color-on-surface-variant: #5a4b44;
+  --color-surface-dim: #e5dccd;
+  --color-surface-variant: #e2d8ca;
   --color-surface-container-lowest: #ffffff;
-  --color-outline: #827472;
-  --color-outline-variant: #d4c3c0;
-  --color-chocolate-dark: #2D1D1B;
-  --color-caramel-rich: #B58463;
-  --color-cream-vanilla: #FDFBF7;
-  --color-pistachio-accent: #A3B18A;
-  --color-error: #ba1a1a;
+  --color-surface-container-low: #f2ece2;
+  --color-surface-container: #ece4d8;
+  --color-surface-container-high: #e5dccd;
+  --color-surface-container-highest: #ddd2c1;
+  --color-outline: #7a6a62;
+  --color-outline-variant: #d8ccbc;
 
-  /* Variações com contraste AA (4,5:1) para texto sobre fundos claros */
-  --color-caramel-deep: #8a5a3b;
-  --color-pistachio-deep: #667452;
+  /* Marca */
+  --color-chocolate-dark: #17100d;
+  --color-caramel-rich: #c99a6e;   /* caramelo sobre fundos escuros */
+  --color-caramel-deep: #8a5a3b;   /* caramelo sobre fundos claros (5,2:1) */
+  --color-cream-vanilla: #faf6f0;
+  --color-pistachio-accent: #b5c19d;
+  --color-pistachio-deep: #5e6b47;
   --color-whatsapp: #1a7f4b;
+  --color-error: #a33a2e;
 
-  --font-display-lg: "Playfair Display", serif;
-  --font-body-lg: "Outfit", sans-serif;
-  --font-headline-md: "Playfair Display", serif;
-  --font-headline-sm: "Playfair Display", serif;
-  --font-body-md: "Outfit", sans-serif;
-  --font-label-sm: "Outfit", sans-serif;
-  --font-display-lg-mobile: "Playfair Display", serif;
-  --font-label-md: "Outfit", sans-serif;
+  /* ---------- Tipografia ---------- */
+  --font-serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --text-display-lg: 48px;
-  --text-display-lg--line-height: 56px;
-  --text-display-lg--font-weight: 700;
-  --text-display-lg--letter-spacing: -0.02em;
-  --text-display-lg-mobile: 36px;
-  --text-display-lg-mobile--line-height: 44px;
-  --text-display-lg-mobile--font-weight: 700;
-  --text-headline-md: 32px;
-  --text-headline-md--line-height: 40px;
-  --text-headline-md--font-weight: 600;
+  --font-display-lg: var(--font-serif);
+  --font-display-lg-mobile: var(--font-serif);
+  --font-headline-md: var(--font-serif);
+  --font-headline-sm: var(--font-serif);
+  --font-body-lg: var(--font-sans);
+  --font-body-md: var(--font-sans);
+  --font-label-md: var(--font-sans);
+  --font-label-sm: var(--font-sans);
+
+  /* Escala (títulos leves e grandes, como em instituições financeiras) */
+  --text-display-xl: 88px;
+  --text-display-xl--line-height: 0.98;
+  --text-display-xl--font-weight: 360;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-lg: 60px;
+  --text-display-lg--line-height: 1.04;
+  --text-display-lg--font-weight: 380;
+  --text-display-lg--letter-spacing: -0.03em;
+  --text-display-lg-mobile: 40px;
+  --text-display-lg-mobile--line-height: 1.08;
+  --text-display-lg-mobile--font-weight: 400;
+  --text-display-lg-mobile--letter-spacing: -0.025em;
+  --text-headline-md: 40px;
+  --text-headline-md--line-height: 1.1;
+  --text-headline-md--font-weight: 400;
+  --text-headline-md--letter-spacing: -0.02em;
   --text-headline-sm: 24px;
-  --text-headline-sm--line-height: 32px;
-  --text-headline-sm--font-weight: 600;
+  --text-headline-sm--line-height: 1.25;
+  --text-headline-sm--font-weight: 500;
+  --text-headline-sm--letter-spacing: -0.01em;
   --text-body-lg: 18px;
-  --text-body-lg--line-height: 28px;
+  --text-body-lg--line-height: 1.6;
   --text-body-md: 16px;
-  --text-body-md--line-height: 24px;
+  --text-body-md--line-height: 1.6;
   --text-label-md: 14px;
   --text-label-md--line-height: 20px;
-  --text-label-md--font-weight: 600;
+  --text-label-md--font-weight: 500;
   --text-label-sm: 12px;
   --text-label-sm--line-height: 16px;
   --text-label-sm--font-weight: 500;
+  --text-eyebrow: 12px;
+  --text-eyebrow--line-height: 16px;
+  --text-eyebrow--font-weight: 600;
+  --text-eyebrow--letter-spacing: 0.18em;
 
-  --spacing-margin-mobile: 16px;
+  /* ---------- Espaço, forma, profundidade ---------- */
+  --spacing-margin-mobile: 20px;
   --spacing-margin-desktop: 64px;
   --spacing-gutter: 24px;
-  --spacing-container-max: 1280px;
-  --container-container-max: 1280px;
+  --spacing-container-max: 1240px;
+  --container-container-max: 1240px;
 
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 28px;
+
+  --shadow-card: 0 1px 2px rgb(31 23 20 / 0.04), 0 8px 24px -12px rgb(31 23 20 / 0.12);
+  --shadow-raised: 0 2px 4px rgb(31 23 20 / 0.05), 0 24px 48px -20px rgb(31 23 20 / 0.25);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
   --animate-spin-slow: spin-slow 60s linear infinite;
-  --animate-fade-in: fade-in 1.2s ease-out forwards;
-  --animate-slide-up: slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  --animate-scroll-cue: scroll-cue 2.4s var(--ease-out-soft) infinite;
 
   @keyframes spin-slow {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes slide-up {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes scroll-cue {
+    0% { transform: translateY(-100%); }
+    60%, 100% { transform: translateY(220%); }
   }
 }
 
 @layer base {
+  html {
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";   /* Inter: 'a' de um andar e algarismos mais limpos */
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     @apply bg-background text-on-background font-body-md antialiased overflow-x-hidden;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-cream-200);
+    color: var(--color-ink);
   }
 
   /* Contorno de foco visível para quem navega pelo teclado. */
@@ -113,6 +177,59 @@
   }
 }
 
+@layer components {
+  /* Rótulo pequeno em caixa alta acima de títulos. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--text-eyebrow);
+    line-height: var(--text-eyebrow--line-height);
+    font-weight: var(--text-eyebrow--font-weight);
+    letter-spacing: var(--text-eyebrow--letter-spacing);
+    text-transform: uppercase;
+  }
+
+  /* Números de preço alinhados (algarismos tabulares da Inter). */
+  .price {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum", "cv11";
+    letter-spacing: -0.01em;
+  }
+
+  /* Botões */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0 1.5rem;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--ease-out-soft);
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--color-cocoa-800); color: var(--color-cream-50); }
+  .btn-primary:hover { background: var(--color-ink); box-shadow: var(--shadow-raised); }
+  .btn-light { background: var(--color-cream-50); color: var(--color-ink); }
+  .btn-light:hover { background: #ffffff; }
+  .btn-outline { border: 1px solid currentColor; }
+  .btn-outline:hover { background: rgb(255 255 255 / 0.08); }
+  .btn-outline-dark { border: 1px solid var(--color-ink); color: var(--color-ink); }
+  .btn-outline-dark:hover { background: var(--color-ink); color: var(--color-cream-50); }
+
+  /* Filete dourado curto, usado como assinatura visual. */
+  .rule-gold {
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--color-gold);
+  }
+}
+
 @layer utilities {
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
@@ -123,18 +240,17 @@
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
   .card-shadow {
-    box-shadow: 0 10px 30px rgba(74, 49, 45, 0.04);
+    box-shadow: var(--shadow-card);
   }
   .checkout-card {
-    box-shadow: 0 10px 30px -5px rgba(74, 49, 45, 0.04);
+    box-shadow: var(--shadow-card);
   }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .transition-soft {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s var(--ease-out-soft);
   }
   /* As classes font-*, text-*, px-margin-*, gap-gutter e max-w-container-max
-     são geradas pelo Tailwind a partir do @theme acima. Só o espaçamento
-     entre letras dos rótulos precisa de regra própria. */
-  .font-label-md { letter-spacing: 0.05em; }
+     são geradas pelo Tailwind a partir do @theme acima. */
+  .font-label-md { letter-spacing: 0.01em; }
 }

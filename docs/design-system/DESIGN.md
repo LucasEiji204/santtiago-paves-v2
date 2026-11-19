@@ -1,197 +1,124 @@
----
-name: Artisanal Confectionery System
-colors:
-  surface: '#fef9f3'
-  surface-dim: '#ded9d4'
-  surface-bright: '#fef9f3'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f8f3ed'
-  surface-container: '#f2ede7'
-  surface-container-high: '#ece7e2'
-  surface-container-highest: '#e6e2dc'
-  on-surface: '#1d1b18'
-  on-surface-variant: '#504442'
-  inverse-surface: '#32302c'
-  inverse-on-surface: '#f5f0ea'
-  outline: '#827472'
-  outline-variant: '#d4c3c0'
-  surface-tint: '#755753'
-  primary: '#321c19'
-  on-primary: '#ffffff'
-  primary-container: '#4a312d'
-  on-primary-container: '#bb9893'
-  inverse-primary: '#e4beb8'
-  secondary: '#76574b'
-  on-secondary: '#ffffff'
-  secondary-container: '#fed4c4'
-  on-secondary-container: '#795a4d'
-  tertiary: '#301e0a'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#48331d'
-  on-tertiary-container: '#b99b7e'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#ffdad4'
-  primary-fixed-dim: '#e4beb8'
-  on-primary-fixed: '#2b1613'
-  on-primary-fixed-variant: '#5b403c'
-  secondary-fixed: '#ffdbcd'
-  secondary-fixed-dim: '#e6beaf'
-  on-secondary-fixed: '#2c160d'
-  on-secondary-fixed-variant: '#5c4035'
-  tertiary-fixed: '#ffdcbd'
-  tertiary-fixed-dim: '#e1c1a2'
-  on-tertiary-fixed: '#291805'
-  on-tertiary-fixed-variant: '#59422b'
-  background: '#fef9f3'
-  on-background: '#1d1b18'
-  surface-variant: '#e6e2dc'
-  chocolate-dark: '#2D1D1B'
-  caramel-rich: '#B58463'
-  cream-vanilla: '#FDFBF7'
-  pistachio-accent: '#A3B18A'
-typography:
-  display-lg:
-    fontFamily: Playfair Display
-    fontSize: 48px
-    fontWeight: '700'
-    lineHeight: 56px
-    letterSpacing: -0.02em
-  display-lg-mobile:
-    fontFamily: Playfair Display
-    fontSize: 36px
-    fontWeight: '700'
-    lineHeight: 44px
-  headline-md:
-    fontFamily: Playfair Display
-    fontSize: 32px
-    fontWeight: '600'
-    lineHeight: 40px
-  headline-sm:
-    fontFamily: Playfair Display
-    fontSize: 24px
-    fontWeight: '600'
-    lineHeight: 32px
-  body-lg:
-    fontFamily: Outfit
-    fontSize: 18px
-    fontWeight: '400'
-    lineHeight: 28px
-  body-md:
-    fontFamily: Outfit
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: 24px
-  label-md:
-    fontFamily: Outfit
-    fontSize: 14px
-    fontWeight: '600'
-    lineHeight: 20px
-    letterSpacing: 0.05em
-  label-sm:
-    fontFamily: Outfit
-    fontSize: 12px
-    fontWeight: '500'
-    lineHeight: 16px
-rounded:
-  sm: 0.25rem
-  DEFAULT: 0.5rem
-  md: 0.75rem
-  lg: 1rem
-  xl: 1.5rem
-  full: 9999px
-spacing:
-  unit: 8px
-  container-max: 1280px
-  gutter: 24px
-  margin-mobile: 16px
-  margin-desktop: 64px
+# Atelier du Pavé — Design System 2.0
+
+**Direção:** "private banking" aplicado à confeitaria. A sobriedade e a confiança das instituições
+financeiras premium (títulos serifados grandes e leves, muito espaço, filetes finos, paleta contida),
+com o calor de uma confeitaria (tons de cacau, creme e caramelo).
+
+A fonte da verdade dos tokens é o bloco `@theme` em [`frontend/src/index.css`](../../frontend/src/index.css).
+Este documento explica como usá-los.
+
 ---
 
-## Brand & Style
+## 1. Tipografia
 
-This design system is anchored in the concept of "Handcrafted Luxury." It targets a sophisticated audience that values the slow, intentional process of high-end confectionery. The emotional response should be one of warmth, indulgence, and trust—evoking the sensory experience of a premium pâtisserie.
+| Papel | Fonte | Por quê |
+|---|---|---|
+| Títulos, números grandes de destaque, citações | **Newsreader** (Google Fonts, variável, com itálico) | Serifada editorial com eixo de tamanho óptico. É a alternativa gratuita mais próxima da Tiempos Headline, muito usada em bancos privados e marcas premium. |
+| Texto, botões, menus, formulários, preços | **Inter** (Google Fonts, variável) | Padrão das fintechs (é a alternativa gratuita mais próxima da Söhne, usada pela Stripe). Foi desenhada para tela e tem algarismos tabulares. |
 
-The design style is **Corporate Modern with a Tactile twist**. It utilizes heavy whitespace to allow high-fidelity photography to shine, while incorporating soft, organic depth to mimic the creamy textures of the product. The interface feels "delicious" through the use of soft-touch surfaces, generous roundedness, and a palette that feels edible. This isn't just a digital interface; it is a digital extension of the kitchen’s craftsmanship.
+Recursos ligados no `<html>`: `cv11` (a de um andar) e `ss01` (algarismos abertos) da Inter.
 
-## Colors
+### Escala
 
-The palette is a monochromatic exploration of earth and cream, designed to highlight the product. 
+| Classe | Tamanho / altura | Peso | Uso |
+|---|---|---|---|
+| `text-display-xl` | 88 / 0.98 | 360 | Só o título principal da página inicial (desktop) |
+| `text-display-lg` | 60 / 1.04 | 380 | Títulos de seção e de página (desktop) |
+| `text-display-lg-mobile` | 40 / 1.08 | 400 | Os mesmos títulos no celular |
+| `text-headline-md` | 40 / 1.1 | 400 | Títulos secundários |
+| `text-headline-sm` | 24 / 1.25 | 500 | Títulos de card e de bloco |
+| `text-body-lg` | 18 / 1.6 | 400 | Parágrafos de destaque |
+| `text-body-md` | 16 / 1.6 | 400 | Texto corrido |
+| `text-label-md` | 14 / 20 | 500 | Rótulos, botões pequenos |
+| `text-label-sm` | 12 / 16 | 500 | Legendas |
+| `.eyebrow` | 12 / 16, caixa alta, +0.18em | 600 | Rótulo acima de títulos |
 
-- **Primary (#4A312D):** Representing deep cocoa; used for core branding, primary actions, and high-level headings.
-- **Secondary (#8C6B5E):** A roasted coffee tone; used for secondary UI elements and supporting text.
-- **Tertiary (#D9B99B):** A golden caramel; used for subtle accents and decorative strokes.
-- **Neutral (#FAF5EF):** A "clotted cream" base; used as the primary background color to maintain a warm, non-clinical feel.
+**Regras**
+- Títulos em Newsreader com peso leve (360–400) e espaçamento negativo. Peso alto em serifada fica "jornal popular", não "banco".
+- Use `<em>` (itálico da Newsreader) para destacar a segunda metade de um título, geralmente na cor `cream-200` (fundo escuro) ou `caramel-deep` (fundo claro).
+- **Todo preço usa a classe `.price`**: Inter com algarismos tabulares, para os valores ficarem alinhados.
+- `text-wrap: balance` nos títulos e `pretty` nos parágrafos já vem aplicado globalmente.
 
-For semantic feedback, use desaturated versions of standard status colors to maintain the "luxury" aesthetic (e.g., a dusty rose for errors instead of a bright red).
+## 2. Cores
 
-## Typography
+### Neutros
+| Token | Hex | Uso |
+|---|---|---|
+| `ink` | `#1f1714` | Texto principal (15,8:1 sobre `paper`) |
+| `ink-soft` | `#5a4b44` | Texto secundário (7,4:1) |
+| `ink-muted` / `outline` | `#7a6a62` | Placeholders e legendas (4,6:1) |
+| `paper` / `background` | `#f7f2ea` | Fundo das páginas |
+| `surface-container-lowest` | `#ffffff` | Cards |
+| `surface-container-low` | `#f2ece2` | Seções alternadas, campos |
+| `line` | `#e2d8ca` | Filetes e bordas de 1px |
 
-The typographic hierarchy relies on the contrast between the serif **Playfair Display** and the geometric sans-serif **Outfit**. 
+### Cacau (seções escuras)
+`cocoa-950 #17100d` · `cocoa-900 #241915` · `cocoa-800 #2b1f1a` (botão primário) · `cocoa-700 #3d2c25`
 
-**Playfair Display** is reserved for high-level headings and "editorial" moments. It should be used sparingly to maintain its impact. **Outfit** handles the heavy lifting for body copy, buttons, and navigation, providing a clean, modern counter-balance to the classical serif. 
+Sobre fundo escuro, o texto é `cream-50 #faf6f0`. Para texto secundário, use `cream-50/70`.
 
-Always maintain generous line heights (1.5x minimum for body) to ensure a relaxed reading rhythm. Labels should occasionally use increased letter spacing and uppercase styling to denote categorization without adding visual weight.
+### Acentos
+| Token | Hex | Uso |
+|---|---|---|
+| `caramel-deep` | `#8a5a3b` | Acento sobre fundo claro: links, rótulos (5,2:1) |
+| `caramel-rich` | `#c99a6e` | Acento sobre fundo escuro (7,5:1 no `cocoa-950`) |
+| `gold` | `#b8956a` | Só filetes decorativos (`.rule-gold`), nunca texto |
+| `cream-200` | `#e9dccb` | Itálicos de destaque sobre fundo escuro |
+| `pistachio-deep` | `#5e6b47` | Confirmação ("adicionado") |
+| `whatsapp` | `#1a7f4b` | Botão de enviar pedido |
+| `error` | `#a33a2e` | Erros de formulário |
 
-## Layout & Spacing
+Os nomes antigos (`primary`, `primary-container`, `surface-*`, `on-surface-variant`…) continuam existindo,
+agora apontando para a nova paleta. Em código novo, prefira os nomes da tabela acima.
 
-This design system uses a **Fixed Grid** on desktop and a **Fluid Grid** on mobile. The spacing rhythm is strictly based on an 8px scale (8, 16, 24, 32, 48, 64, 80, 120).
+## 3. Espaço, forma e profundidade
 
-- **Desktop (1280px+):** 12-column grid with 24px gutters. Use wide 64px outside margins to create a "gallery" feel.
-- **Tablet (768px - 1279px):** 8-column grid with 24px gutters and 32px margins.
-- **Mobile (< 767px):** 4-column fluid grid with 16px gutters and 16px margins.
+- **Grade:** largura máxima de `1240px` (`max-w-container-max`), margens de `20px` no celular e `64px` no desktop, gutter de `24px`.
+- **Ritmo vertical:** seções com `py-24` no celular e `py-32` no desktop. Na dúvida, mais espaço.
+- **Raios:** `sm 6` · `md 10` · `lg 12` · `xl 16` · `2xl 20` (cards) · `3xl 28` · `full` (botões e chips).
+- **Sombras:** `--shadow-card` (cards em repouso) e `--shadow-raised` (hover e botões em destaque). As duas são tingidas de cacau, nunca preto puro.
+- **Filetes:** bordas de 1px na cor `line` ou `cream-50/15` organizam o conteúdo, como nos sites de bancos. Prefira filetes a caixas cheias.
 
-Whitespace is used as a structural element. Avoid crowding elements; if in doubt, increase the vertical padding between sections (e.g., 120px on desktop) to emphasize the premium nature of the brand.
+## 4. Componentes
 
-## Elevation & Depth
+### Botões (`.btn` + variante)
+| Classe | Aparência | Onde |
+|---|---|---|
+| `btn btn-primary` | Cacau sólido, texto creme | Ação principal sobre fundo claro |
+| `btn btn-light` | Creme sólido, texto tinta | Ação principal sobre fundo escuro ou vídeo |
+| `btn btn-outline` | Borda na cor do texto | Ação secundária sobre fundo escuro |
+| `btn btn-outline-dark` | Borda tinta, fica cheio no hover | Ação secundária sobre fundo claro |
 
-Hierarchy is established through **Tonal Layers** and **Ambient Shadows**. 
+Todos têm 48px de altura mínima (área de toque), formato de pílula e Inter 15px/500.
 
-1.  **Base Layer:** The "Cream" neutral color (#FAF5EF).
-2.  **Surface Layer:** High-priority cards and containers use a pure white (#FFFFFF) with a very soft, diffused shadow (Blur: 30px, Y: 10px, Opacity: 4% of the Primary Color).
-3.  **Active Depth:** Interactive elements like buttons should use a subtle inner-glow (1px stroke in a lighter tint) to appear slightly "extruded" or "pressed."
+### Cabeçalho
+- Padrão: fixo no topo, fundo `paper` translúcido com desfoque e filete inferior.
+- `overlay` (só na página inicial): transparente sobre o vídeo, vidro escuro enquanto a abertura está na tela e claro depois dela (`#apos-abertura`).
 
-Avoid harsh black shadows. All shadows must be tinted with the Primary #4A312D color to ensure they feel organic and warm, rather than digital.
+### Card de produto
+Fundo branco, `rounded-2xl`, borda `line`, imagem 4:3 que aproxima levemente no hover, nome em Newsreader 22px,
+preço `.price` e botão "+" redondo, com filete separando o rodapé do card.
 
-## Shapes
+### Assinaturas visuais
+- `.eyebrow` + `.rule-gold`: rótulo em caixa alta precedido de um filete dourado de 40px. Abre toda seção.
+- Numeração `01 02 03` em `.price` nas etapas.
 
-The shape language is defined by "Generous Softness." Corners should never be sharp, as this contradicts the "creamy" and "approachable" brand personality. 
+## 5. Movimento
 
-A standard **0.5rem (8px)** radius is the baseline for inputs and small components. Larger containers like product cards should utilize **1.5rem (24px)** to create a friendly, organic frame for photography. Interactive elements like "Add to Cart" or specialized "Chips" may utilize pill-shapes to further distinguish them from informational blocks.
+- Curva padrão: `--ease-out-soft` (`cubic-bezier(0.22, 1, 0.36, 1)`), com durações de 0,5–0,8 s.
+- Elementos entram com opacidade e um deslocamento de 24–40px, uma vez, quando aparecem na tela.
+- **Abertura da página inicial (`HeroStory`):** o vídeo fica fixo enquanto 4 "camadas" de informação aparecem uma por vez com o scroll (feito à mão, personalização, como pedir, pagamento e entrega).
+- **Respeite "reduzir movimento":** o app inteiro usa `MotionConfig reducedMotion="user"`. A abertura vira uma sequência estática com a imagem do pôster, sem vídeo.
 
-## Components
+## 6. Vídeo de fundo
 
-### Buttons
-- **Primary:** Solid #4A312D with white Outfit text. Rounded-lg (16px).
-- **Secondary:** Transparent with a 1.5px border of #8C6B5E. 
-- **States:** Hover state should involve a subtle shift in background saturation or a slight lift (shadow increase).
+- Arquivos: `frontend/public/media/hero.mp4` (1920×1080, 16 s em loop, cerca de 1 MB) e `hero-poster.jpg`.
+- Gerado por código: [`docs/video/render.py`](../video/render.py). As camadas de creme, ganache e biscoito ondulam devagar, uma luz quente passeia e partículas de cacau sobem. Para mudar cores ou ritmo, edite as constantes do script e rode `python3 render.py video hero.mp4` (precisa de numpy, Pillow e ffmpeg).
+- O vídeo é decorativo (`aria-hidden`), não tem som e pausa quando sai da tela.
 
-### Cards
-- White background, 24px corner radius, and ambient tinted shadows.
-- Imagery should always be top-aligned with no margin, bleeding into the card edges to showcase texture.
+## 7. Acessibilidade (obrigatório)
 
-### Input Fields
-- Background should be a slightly darker tint of the neutral cream.
-- 2px bottom border only, or a full soft-border with 8px radius. Use the Tertiary color for the focus state to avoid "error-like" high contrast.
-
-### Photography & Icons
-- **Photography:** Focus on "Macro-Indulgence." High-detail shots of textures (layers of pavé, dripping caramel). Lighting should be warm and natural.
-- **Icons:** Use thin-stroke (1.5px) linear icons. Avoid filled icons unless used for active navigation states.
-
-### Accessibility
-- Ensure all text-on-cream combinations maintain a 4.5:1 contrast ratio.
-- Secondary #8C6B5E should be used cautiously for small text; prefer Primary #4A312D for readability.
-## Implementação
-
-Os tokens usados de fato pelo site estão em `frontend/src/index.css` (bloco `@theme`) — essa é a fonte da
-verdade. Diferenças em relação a este documento:
-
-- **Primary** no código é `#321c19` (texto e títulos); `#4A312D` é o `primary-container` (botões e superfícies).
-- Cores extras da marca: `chocolate-dark #2D1D1B`, `caramel-rich #B58463`, `cream-vanilla #FDFBF7`,
-  `pistachio-accent #A3B18A`.
-- Variações para acessibilidade (contraste mínimo 4,5:1 sobre o creme):
-  - `caramel-deep #8A5A3B` — texto caramelo sobre fundos claros (`caramel-rich` só sobre fundos escuros);
-  - `pistachio-deep #667452` — fundo de confirmação com texto branco;
-  - `whatsapp #1A7F4B` — botão de enviar pedido com texto branco.
+- Contraste mínimo de 4,5:1 para texto. As combinações acima já foram conferidas.
+- Foco visível: contorno de 2px na cor `caramel-deep` em todo elemento focável.
+- Ícones são decorativos (`aria-hidden`). Botões só com ícone precisam de `aria-label`.
+- Área de toque mínima de 44–48px.

@@ -321,7 +321,7 @@ export function CheckoutPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start gap-3">
                           <h3 className="font-label-md text-primary">{item.name}</h3>
-                          <span className="font-label-md text-primary whitespace-nowrap">{formatCurrency(item.unitPrice * item.quantity)}</span>
+                          <span className="price font-label-md text-primary whitespace-nowrap">{formatCurrency(item.unitPrice * item.quantity)}</span>
                         </div>
                         {item.addons.length > 0 && (
                           <p className="text-label-sm text-on-surface-variant">+ {item.addons.map((a) => a.name).join(', ')}</p>
@@ -336,15 +336,15 @@ export function CheckoutPage() {
                 <div className="space-y-3 pt-6 border-t border-surface-variant">
                   <div className="flex justify-between text-on-surface-variant">
                     <span>Subtotal</span>
-                    <span>{formatCurrency(subtotal)}</span>
+                    <span className="price">{formatCurrency(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-on-surface-variant">
                     <span>{logistics === 'delivery' ? 'Taxa de Entrega' : 'Retirada na loja'}</span>
-                    <span>{deliveryFee > 0 ? formatCurrency(deliveryFee) : 'Grátis'}</span>
+                    <span className="price">{deliveryFee > 0 ? formatCurrency(deliveryFee) : 'Grátis'}</span>
                   </div>
                   <div className="flex justify-between text-display-lg-mobile font-display-lg-mobile text-primary pt-4">
                     <span>Total</span>
-                    <motion.span key={total} initial={{ scale: 1.1 }} animate={{ scale: 1 }}>
+                    <motion.span key={total} initial={{ scale: 1.1 }} animate={{ scale: 1 }} className="price font-medium">
                       {formatCurrency(total)}
                     </motion.span>
                   </div>
