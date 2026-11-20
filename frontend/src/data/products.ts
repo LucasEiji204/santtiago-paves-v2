@@ -29,7 +29,7 @@ export const DEFAULT_ADDONS: Addon[] = [
 export const PRODUCTS: Product[] = [
   {
     id: 'pave-classico',
-    name: 'Pavé Clássico',
+    name: 'Pavê Clássico',
     description: 'Camadas de biscoito artesanal embebido em licor fino, creme de baunilha Bourbon e ganache belga.',
     price: 24.9,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBVetiQBeCn35xj8dT4TdEmMYcUy8CZA0sca4YcKJ3zGkjRwRlWzxqouoQih0jLquCXnEyhqblt4MQI8UN2ozlmgWja2q8_v--Ar4Ai7zTb--W_ZZkmEb5O8w2SxZcNTj7sN0cjFYCAddKU9LZ0wgVsMyDWHdAIQJHDFNsKEo99U4UfaijFkrQ9sHD1NRlwU375trhfqcpXG7lEOJ_JarKrKKewgIstpVtQcASxFTd_sWoOUMhicAJU',
@@ -40,7 +40,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'pave-pistache',
-    name: 'Pavé de Pistache',
+    name: 'Pavê de Pistache',
     description: 'Creme de pistache iraniano, praliné crocante e chocolate branco 32% cacau.',
     price: 32,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBJMH9KLco967xyd8t5MSpRrF6oeghSKmcENnGt2RB7T3LHD_WUrKplfoP6U5QPqGegWmJ9WlYtT4IJO0koTl14kqmCkHoo1voq21W-G1Fd-uSsjr0hvcMxOnIBdkH9rG9XUGvWGdpPCTBnxFQYhV44te9J1wHTiZV6Ab3XdmZwrQnLAWES0f7p9LBQlDrEOcHHXxMmHDpVAHfhtpzV3RTGcnsVHyv7VF9OcA1_stf_tmp0N7am7wWR',
@@ -67,7 +67,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'pave-chocolate-belga',
-    name: 'Pavé de Chocolate Belga',
+    name: 'Pavê de Chocolate Belga',
     description: 'Nossa versão clássica e artesanal. Camadas intercaladas de biscoito amanteigado embebido em calda secreta, creme de chocolate belga 54% cacau e finalizado com uma generosa camada de ganache sedosa.',
     price: 38.9,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD8tuiphELWwwmV8A4zMO2aLjZ5GYbF27ED5vOagx4VJk261hxcWRs5S6y-iSW9x1bupnaNkAUycz7XCvyOh2OUAqhhF_TBhV6MaEP0VwjxkoDZH3qjJA68Rfwf2mWI69dy-XflrBIsstEVsvWGIqGEvtTTKGow4_SGaudeYWSwqYEkqKNh8UhLpdE5PNFFFtAyN2mLxSDo3cj2HXqJL6zyiQxgOQstVI_v5MjDH30eYKXS_9i1C0wQ',
@@ -77,7 +77,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'pave-classico-dor',
-    name: "Pavé Clássico d'Or",
+    name: "Pavê Clássico d'Or",
     description: 'Nossa receita original com biscoito champanhe artesanal e creme de baunilha bourbon.',
     price: 28,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAHk8ztEcJNQ87pBZGtp00zLjaMCEo_UIdMqiClLMWjZHkgGFl7c5ijG8ARRu9bB0eCB0BS07cDV2YjHNXt0YcdO35aLxnYd9oz70I5bsx8R1zwl1-rJ3bNYVuki3DgLR9bQE71usRnJl01YKQv-fEui_mxOX-s0fsKJ48yQ8ldsTynqtZszFw0UQzEFm8ZKCeQxufO-I72fhp8S-FmiPZcALT8k1cIBvQHm2eSO00xdDQs7wmecziC',

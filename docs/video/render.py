@@ -1,5 +1,5 @@
 """
-Vídeo de fundo do Atelier du Pavé: camadas de um pavê (biscoito, creme,
+Vídeo de fundo do Atelier du Pavê: camadas de um pavê (biscoito, creme,
 ganache, caramelo) em corte, ondulando devagar, com uma luz quente que passeia.
 Loop perfeito: todas as animações usam períodos que dividem T.
 

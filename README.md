@@ -1,6 +1,6 @@
-# Atelier du Pavé — Cardápio Digital
+# Atelier du Pavê — Cardápio Digital
 
-Cardápio online do **Atelier du Pavé**, confeitaria de pavês artesanais. O cliente navega pelo cardápio,
+Cardápio online do **Atelier du Pavê**, confeitaria de pavês artesanais. O cliente navega pelo cardápio,
 monta a sacola e finaliza o pedido pelo **WhatsApp**, onde o pagamento é combinado (Pix ou dinheiro).
 
 O site não tem backend nem banco de dados: nenhum dado pessoal fica salvo. Detalhes em
@@ -30,13 +30,26 @@ Outros comandos: `npm run lint`, `npm run typecheck`, `npm run build`, `npm run 
 
 ## Configuração da loja
 
-Telefone, taxa de entrega, endereço de retirada, cidade, e-mail e redes sociais ficam em
+Taxa de entrega, endereço de retirada, cidade, e-mail e redes sociais ficam em
 [`frontend/src/config.ts`](frontend/src/config.ts). Campos vazios são escondidos no site.
 
-O número do WhatsApp também pode ser definido pela variável `VITE_WHATSAPP_NUMBER`
-(veja `frontend/.env.example`).
-
 Produtos, preços e adicionais: [`frontend/src/data/products.ts`](frontend/src/data/products.ts).
+
+## Variáveis de ambiente (.env)
+
+Dados que não devem ficar escritos no código (hoje, o número do WhatsApp) vêm de **variáveis de ambiente**.
+A lista completa, com explicações, está em [`frontend/.env.example`](frontend/.env.example).
+
+| Onde | Como configurar |
+|---|---|
+| **Seu computador** | Copie `frontend/.env.example` para `frontend/.env.local` e preencha. Esse arquivo não vai para o GitHub (`.gitignore`). Reinicie o `npm run dev` depois de alterar. |
+| **Vercel** | Project → Settings → Environment Variables. Depois de alterar, faça um novo deploy. |
+| **GitHub Actions (CI)** | Settings → Secrets and variables → Actions → *New repository secret*. O `ci.yml` repassa o valor para o build. |
+
+> **Importante:** este site roda inteiro no navegador. Toda variável `VITE_*` é embutida no JavaScript
+> publicado e **qualquer visitante consegue ler**. A `.env` serve para tirar dados do código-fonte e mudar
+> valores sem editar código, mas **não esconde segredos**. Senhas, tokens e chaves de API privadas só podem
+> ser usados num backend (por exemplo, uma função serverless na Vercel), nunca com o prefixo `VITE_`.
 
 ## Deploy (Vercel)
 

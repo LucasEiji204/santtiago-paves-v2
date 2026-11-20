@@ -79,7 +79,7 @@ export function LandingPage() {
               </h2>
               <div className="space-y-5 text-body-lg text-ink-soft">
                 <p>
-                  O Atelier du Pavé nasceu do desejo de levar o pavê, sobremesa de família, ao patamar da confeitaria
+                  O Atelier du Pavê nasceu do desejo de levar o pavê, sobremesa de família, ao patamar da confeitaria
                   internacional. O que começou numa pequena cozinha, com receitas passadas de geração em geração,
                   virou um ateliê dedicado a uma única arte.
                 </p>

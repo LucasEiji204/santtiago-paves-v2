@@ -12,7 +12,7 @@ import { CATEGORIES, PRODUCTS, categoryTabId, type Category } from '../data/prod
 
 const PANEL_ID = 'painel-produtos'
 
-/** Compara sem diferenciar maiúsculas nem acentos ("pave" encontra "Pavé"). */
+/** Compara sem diferenciar maiúsculas nem acentos ("pave" encontra "Pavê"). */
 function normalize(text: string) {
   return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 }
@@ -52,7 +52,7 @@ export function MenuPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-12 pr-12 py-4 bg-surface-container-low border-2 border-transparent rounded-xl font-body-md text-on-surface placeholder:text-outline outline-none focus-visible:border-caramel-deep transition-colors"
-              placeholder="Encontre seu pavé favorito..."
+              placeholder="Encontre seu pavê favorito..."
               type="search"
               autoComplete="off"
             />

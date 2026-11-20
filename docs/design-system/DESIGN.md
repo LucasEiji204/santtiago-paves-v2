@@ -1,4 +1,4 @@
-# Atelier du Pavé — Design System 2.0
+# Atelier du Pavê — Design System 2.0
 
 **Direção:** a solidez e a clareza dos bancos digitais (títulos sans-serif firmes, muito espaço, filetes
 finos, paleta contida), com o calor de uma confeitaria (tons de cacau, creme e caramelo).

@@ -6,7 +6,7 @@ export function onlyDigits(value: string): string {
   return value.replace(/\D/g, '')
 }
 
-/** Máscara de telefone: (18) 99731-4496 ou (18) 3222-1234 */
+/** Máscara de telefone: (11) 99999-9999 ou (11) 3222-1234 */
 export function maskPhone(value: string): string {
   const d = onlyDigits(value).slice(0, 11)
   if (d.length <= 2) return d.length ? `(${d}` : ''

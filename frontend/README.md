@@ -1,4 +1,4 @@
-# Atelier du Pavé — Frontend
+# Atelier du Pavê — Frontend
 
 React 19 + Vite + Tailwind CSS 4 + Framer Motion. Veja o [README principal](../README.md) para
 instruções de instalação, configuração e deploy.

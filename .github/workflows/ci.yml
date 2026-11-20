@@ -21,3 +21,6 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
+        env:
+          # Cadastrado em Settings → Secrets and variables → Actions
+          VITE_WHATSAPP_NUMBER: ${{ secrets.VITE_WHATSAPP_NUMBER }}
