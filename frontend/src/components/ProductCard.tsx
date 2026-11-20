@@ -1,86 +1,65 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import type { Product } from '../data/products'
-import { useCart } from '../context/CartContext'
 import { formatCurrency } from '../utils/format'
-import { Icon } from './Icon'
+import { QuickAddButton } from './QuickAddButton'
 
 interface ProductCardProps {
   product: Product
   index?: number
+  /** Anima quando o card entra na tela (em vez de ao carregar a página). */
+  inView?: boolean
 }
 
-export function ProductCard({ product, index = 0 }: ProductCardProps) {
-  const navigate = useNavigate()
-  const { addItem } = useCart()
-  const [added, setAdded] = useState(false)
-
-  const handleAdd = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    addItem({
-      productId: product.id,
-      name: product.name,
-      description: product.description,
-      image: product.image,
-      basePrice: product.price,
-      quantity: 1,
-      addons: [],
-      observations: '',
-    })
-    setAdded(true)
-    setTimeout(() => setAdded(false), 2000)
-  }
+export function ProductCard({ product, index = 0, inView = false }: ProductCardProps) {
+  const delay = Math.min(index, 6) * 0.08
+  const animation = inView
+    ? {
+        initial: { opacity: 0, y: 32 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '-60px' },
+        transition: { delay, duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+      }
+    : {
+        initial: { opacity: 0, y: 24 },
+        animate: { opacity: 1, y: 0 },
+        transition: { delay, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+      }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, duration: 0.4 }}
-      whileHover={{ y: -4 }}
-      onClick={() => navigate(`/produto/${product.id}`)}
-      className="bg-surface-container-lowest rounded-xl overflow-hidden card-shadow group cursor-pointer transition-all duration-300"
+    <motion.article
+      {...animation}
+      className="relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden border border-line/80 card-shadow group transition-shadow duration-500 hover:shadow-[var(--shadow-raised)] focus-within:ring-2 focus-within:ring-caramel-deep"
     >
-      <div className="aspect-[4/3] w-full overflow-hidden relative">
+      <div className="aspect-[4/3] w-full overflow-hidden relative bg-surface-container">
         <img
           src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          width={600}
+          height={450}
+          className="w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
         />
         {product.badge && (
-          <div className={`absolute top-4 right-4 text-white text-label-sm px-3 py-1 rounded-full backdrop-blur-sm ${
-            product.badge === 'Mais Vendido' ? 'bg-pistachio-accent/90' : 'bg-white/90 text-primary'
-          }`}>
+          <span className="absolute top-4 left-4 eyebrow text-[10px] px-3 py-1.5 rounded-full bg-cream-50/95 text-ink backdrop-blur-sm">
             {product.badge}
-          </div>
+          </span>
         )}
       </div>
-      <div className="p-6 flex flex-col gap-2">
-        <div className="flex justify-between items-start">
-          <h3 className="font-headline-sm text-primary">{product.name}</h3>
-          <span className="font-headline-sm text-caramel-rich">{formatCurrency(product.price)}</span>
-        </div>
-        <p className="text-on-surface-variant font-body-md line-clamp-2">{product.description}</p>
-        <div className="flex justify-end mt-4">
-          <motion.button
-            whileTap={{ scale: 0.85 }}
-            onClick={handleAdd}
-            animate={{
-              backgroundColor: added ? '#A3B18A' : '#4a312d',
-            }}
-            className="w-12 h-12 rounded-full text-white flex items-center justify-center shadow-md transition-colors"
-          >
-            <motion.span
-              key={added ? 'check' : 'add'}
-              initial={{ scale: 0, rotate: -90 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: 'spring', stiffness: 500 }}
-            >
-              <Icon name={added ? 'check' : 'add'} />
-            </motion.span>
-          </motion.button>
+      <div className="flex flex-col flex-1 p-6 gap-3">
+        <h3 className="font-display text-[20px] leading-tight font-semibold tracking-[-0.02em] text-ink">
+          {/* O link cobre o card inteiro (::after), mas só o nome é lido como texto do link. */}
+          <Link to={`/produto/${product.id}`} className="outline-none after:absolute after:inset-0 after:content-['']">
+            {product.name}
+          </Link>
+        </h3>
+        <p className="text-ink-soft text-[15px] leading-relaxed line-clamp-2">{product.description}</p>
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-line/70">
+          <span className="price text-lg font-medium text-ink">{formatCurrency(product.price)}</span>
+          <QuickAddButton product={product} size="md" />
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   )
 }

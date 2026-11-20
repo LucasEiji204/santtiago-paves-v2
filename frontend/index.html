@@ -2,13 +2,46 @@
 <html lang="pt-BR" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Atelier du Pavê | Artesanalmente doce</title>
+    <meta name="description" content="Pavês artesanais feitos à mão com ingredientes premium. Veja o cardápio, monte seu pedido e finalize pelo WhatsApp — pagamento por Pix ou dinheiro." />
+    <meta name="theme-color" content="#17100d" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Atelier du Pavé | Artesanalmente doce</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Pré-visualização ao compartilhar o link (WhatsApp, Instagram, etc.).
+         Para uma imagem própria, coloque /public/og-image.jpg (1200x630) e
+         acrescente: <meta property="og:image" content="https://SEU-DOMINIO/og-image.jpg" /> -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Atelier du Pavê" />
+    <meta property="og:title" content="Atelier du Pavê | Artesanalmente doce" />
+    <meta property="og:description" content="Pavês artesanais feitos à mão. Peça pelo cardápio online e finalize pelo WhatsApp." />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+    <!-- Tipografia: Inter Tight (títulos) + Inter (texto). Ver docs/design-system/DESIGN.md -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <!-- Só os ícones usados no site (lista em ordem alfabética, exigida pelo Google Fonts).
+         Ao usar um ícone novo em <Icon name="..." />, acrescente o nome aqui. -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300..400,0..1&icon_names=add,arrow_back,arrow_forward,arrow_right_alt,call,check,check_circle,close,cookie,delete,delivery_dining,eco,favorite,home,info,location_on,mail,menu,open_in_new,pause,payments,photo_camera,play_arrow,qr_code_2,remove,restaurant_menu,search,search_off,shopping_bag,shopping_basket,star,storefront,timer,workspace_premium&display=block" rel="stylesheet" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Bakery",
+        "name": "Atelier du Pavê",
+        "description": "Pavês artesanais feitos à mão com ingredientes premium.",
+        "telephone": "+%VITE_WHATSAPP_NUMBER%",
+        "servesCuisine": "Confeitaria",
+        "paymentAccepted": "Pix, Dinheiro",
+        "currenciesAccepted": "BRL"
+      }
+    </script>
   </head>
   <body>
+    <noscript>Ative o JavaScript para ver o cardápio do Atelier du Pavê.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
